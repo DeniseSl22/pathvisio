@@ -122,6 +122,7 @@ public class SwingEngine implements ApplicationEventListener, Pathway.StatusFlag
 		return mainPanel != null;
 	}
 
+	
 	public void handleConverterException(String message, Component c, Throwable e) {
 		if (e.getMessage() != null &&
 				e.getMessage().contains("Cannot find the declaration of element 'Pathway'"))

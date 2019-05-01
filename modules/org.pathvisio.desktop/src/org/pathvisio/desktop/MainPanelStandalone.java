@@ -148,7 +148,7 @@ public class MainPanelStandalone extends MainPanel
 		dpt.addDataHook(new BackpageExpression(desktop.getGexManager()));
 		DataPane dataPane = new DataPane(dpt, swingEngine.getEngine());
 		dataPane.addHyperlinkListener(swingEngine);
-		sidebarTabbedPane.addTab("Data", new JScrollPane(dataPane) );
+		sidebarTabbedPane.addTab("Data Analysis", new JScrollPane(dataPane) );
 		
 		SearchPane searchPane = new SearchPane(swingEngine);
 		sidebarTabbedPane.addTab("Search", searchPane);

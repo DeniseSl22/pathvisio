@@ -127,6 +127,9 @@ public class MainPanel extends JPanel implements VPathwayListener, ApplicationEv
 	
 	public static final Color BEIGE = new Color(238, 245, 219); //adding new background colour
 	public static final Color Columbia_Blue = new Color(184, 216, 216); //adding new menu colour
+	public static final Color Weldon_Blue = new Color(122, 158, 159); //adding new menu colour
+	public static final Color Storm_Cloud = new Color(79, 99, 103); //adding new menu colour
+	public static final Color Sunset_Orange = new Color(254, 95, 85); //adding new menu colour
 
 	protected void addMenuActions(JMenuBar mb) {
 		JMenu fileMenu = new JMenu("File");
@@ -161,6 +164,8 @@ public class MainPanel extends JPanel implements VPathwayListener, ApplicationEv
 		mb.add(editMenu);
 		mb.add(viewMenu);
 		mb.add(helpMenu);
+		
+
 	}
 
 	/**
@@ -191,6 +196,12 @@ public class MainPanel extends JPanel implements VPathwayListener, ApplicationEv
 
 		add(toolBar, BorderLayout.PAGE_START);
 		// menuBar will be added by container (JFrame or JApplet)
+		
+/**		
+* Adding lightest blue colour to toolBar (first have to set it back to transparent).
+* This colour is used in the top of PV (just under the menu bar).
+*/		toolBar.setOpaque(true);
+		toolBar.setBackground(Columbia_Blue); 
 
 		pathwayScrollPane = new JScrollPane();
 		
@@ -199,8 +210,8 @@ public class MainPanel extends JPanel implements VPathwayListener, ApplicationEv
 		pathwayScrollPane.getViewport().setBackground(BEIGE);
 		
 		objectsPane = new ObjectsPane(swingEngine);
-		//objectsPane.setForeground(Columbia_Blue); // Not working, check with Tina how to change colours :)
-		int numItemsPerRow = 10;
+		
+		int numItemsPerRow = 7;
 		objectsPane.addButtons(actions.newDatanodeActions, "Data Nodes", numItemsPerRow);
 		objectsPane.addButtons(actions.newWPInteractionActions, "Semantic Relationships", numItemsPerRow);
 		objectsPane.addButtons(actions.newTemplateActions, "Templates", numItemsPerRow);
@@ -238,15 +249,22 @@ public class MainPanel extends JPanel implements VPathwayListener, ApplicationEv
 		backpagePane = new BackpagePane(bpt, swingEngine.getEngine());
 		backpagePane.addHyperlinkListener(swingEngine);
 		
-		sidebarTabbedPane = new JTabbedPane();
-		sidebarTabbedPane.addTab("Objects", objectsPane);
-		sidebarTabbedPane.addTab( "Properties", propertiesScrollPane );
-		sidebarTabbedPane.addTab( "Backpage", new JScrollPane(backpagePane) );
+		sidebarTabbedPane = new JTabbedPane();		
+/**		
+* Adding middle blue colour to names of tabs of sidebar (first have to set it back to transparent).
+* This colour is used on the right-hand side of PV (above the templates itself.).
+*/		sidebarTabbedPane .setOpaque(true);
+		sidebarTabbedPane.setBackground(Weldon_Blue); 
+		
+		
+		sidebarTabbedPane.addTab("Pathway Drawing", objectsPane);
+		sidebarTabbedPane.addTab("Object Properties", propertiesScrollPane );
+		sidebarTabbedPane.addTab("Identifier Mapping", new JScrollPane(backpagePane) );
 		
 
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 				pathwayScrollPane, sidebarTabbedPane);
-		
+
 		// set a small minimum size, to make sure we can keep resizing the side panel 
 		sidebarTabbedPane.setMinimumSize(new Dimension(50,50));
 		
@@ -267,6 +285,13 @@ public class MainPanel extends JPanel implements VPathwayListener, ApplicationEv
 		}
 
 		menuBar = new JMenuBar();
+	
+/**		
+* Adding medium blue colour to menuBar (first have to set it back to transparent).
+* This colour is used in the top of PV.
+*/		menuBar.setOpaque(true);
+		menuBar.setBackground(Weldon_Blue); 		
+		
 		addMenuActions(menuBar);
 	}
 
@@ -344,6 +369,7 @@ public class MainPanel extends JPanel implements VPathwayListener, ApplicationEv
 		zoomCombo.setEditable(true);
 		zoomCombo.setSelectedIndex(5); // 100%
 		zoomCombo.addActionListener(new ZoomComboListener());
+		
 		addToToolbar(zoomCombo, TB_GROUP_SHOW_IF_VPATHWAY);
 		tb.addSeparator();
 		

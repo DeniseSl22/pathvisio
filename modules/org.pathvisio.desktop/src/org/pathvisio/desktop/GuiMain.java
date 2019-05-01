@@ -17,6 +17,7 @@
 package org.pathvisio.desktop;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -72,6 +73,7 @@ import org.pathvisio.gui.SwingEngine.Browser;
  * 
  * @author thomas
  * @author anwesha
+ * @author DeniseSl22
  *
  */
 public class GuiMain implements GdbEventListener, GexManagerListener
@@ -79,12 +81,20 @@ public class GuiMain implements GdbEventListener, GexManagerListener
 	GuiMain() { 
 		
 	}
+	
+	public UIManager UI;
 
 	private MainPanelStandalone mainPanel;
 
 	private PvDesktop pvDesktop;
 	private SwingEngine swingEngine;
 	public AutoSave auto;  // needs to be here for the same timer to be available always
+
+	public static final Color BEIGE = new Color(238, 245, 219); //adding new background colour
+	public static final Color Columbia_Blue = new Color(184, 216, 216); //adding new menu colour
+	public static final Color Weldon_Blue = new Color(122, 158, 159); //adding new menu colour
+	public static final Color Storm_Cloud = new Color(79, 99, 103); //adding new menu colour
+	public static final Color Sunset_Orange = new Color(254, 95, 85); //adding new menu colour
 
 	private static void initLog(Engine engine)
 	{
@@ -160,7 +170,7 @@ public class GuiMain implements GdbEventListener, GexManagerListener
 	}
 
 /** The statements below check for local identifier mapping databases,
-*	and change the output line in the bottom of PV to the correct name(s).
+*	and change the output line (=statusBar) in the bottom of PV to the correct name(s).
 *   In the future, this could be extended with different mapping database.
 *   Please check which combination can occur for correct output (when adding more mapping databases).
 */	
@@ -208,7 +218,7 @@ public class GuiMain implements GdbEventListener, GexManagerListener
 			DataInterface gex = pvDesktop.getGexManager().getCurrentGex();
 			if(gex != null && gex.isConnected()) {
 				gexLabel.setText(" | Dataset: " + shortenString(gex.getDbName()));
-				gexLabel.setToolTipText(gex.getDbName());
+				gexLabel.setToolTipText("Dataset that is currently loaded in PathVisio, ready for Data Analaysis");
 			} else {
 				gexLabel.setText("");
 				gexLabel.setToolTipText("");
@@ -217,9 +227,6 @@ public class GuiMain implements GdbEventListener, GexManagerListener
 	}
 
 	private JLabel allLabel;
-/*	private JLabel gdbLabel;
-	private JLabel mdbLabel;
-	private JLabel idbLabel;*/
 	private JLabel gexLabel;
 
 	/**
@@ -228,6 +235,10 @@ public class GuiMain implements GdbEventListener, GexManagerListener
 	 */
 	protected JFrame createAndShowGUI(final MainPanelStandalone mainPanel, final SwingEngine swingEngine)
 	{
+/*		UIManager.put("OptionPane.background",  Sunset_Orange);
+		 UIManager.put("Panel.background",  Storm_Cloud);*/  //This option can give a colour to error messages and other pop-up menu's.
+		
+		
 		//Create and set up the window.
 		final JFrame frame = new JFrame(Globals.APPLICATION_NAME);
 		// dispose on close, otherwise windowClosed event is not called.
@@ -243,17 +254,18 @@ public class GuiMain implements GdbEventListener, GexManagerListener
 		frame.add(statusBar, BorderLayout.SOUTH);
 
 		allLabel = new JLabel();
-	/*	gdbLabel = new JLabel();
-		mdbLabel = new JLabel();
-		idbLabel = new JLabel();*/
 		gexLabel = new JLabel();
 
 		statusBar.add(allLabel);
-/*		statusBar.add(gdbLabel);
-		statusBar.add(mdbLabel);
-		statusBar.add(idbLabel);*/
 		statusBar.add(gexLabel);
-		//setGdbStatus(allLabel, gdbLabel, mdbLabel, idbLabel);
+
+/**		
+* Adding lightest blue colour to status bar (first have to set it back to transparent).
+* This colour is used in the bottom of PV (where BridgeDb mapping files and loaded data set name are shown.
+*/		
+		statusBar.setOpaque(true);
+		statusBar.setBackground(Columbia_Blue); 
+		
 		setGdbStatus(allLabel);
 
 		swingEngine.getGdbManager().addGdbEventListener(this);
